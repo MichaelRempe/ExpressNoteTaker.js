@@ -2,6 +2,7 @@
 //====================================================================
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const Note = require("./Note"); //Note Object Constructor
 const app = express(); //create app's server
 
@@ -13,7 +14,11 @@ app.listen(PORT, ()=>{
 app.use(express.static("public")); // Allows for app to serve static files in provided dir
 app.use(express.urlencoded({ extended: true })); //Allows for POST data processing
 app.use(express.json());
+//====================================================================
 
+// Global Data //
+//====================================================================
+const uniqueIDs = [];
 //====================================================================
 
 // Routes //
@@ -29,7 +34,33 @@ app.get("/notes", (req, res)=>{
 app.get("/api/notes", (req, res)=>{
     res.sendFile(path.join(__dirname, "/db/db.json")); // "/api/notes" => db.json : notes 'database'
 })
+    //POST Notes
+app.post("/notes", (req, res)=>{
+    req.body.data = data; //Collect and initialize POST data
+    let title = data[0];
+    let content = data[1];
+    let id = uniqueID();
+    // Create new note object with collected data => write new note to  JSON 'database'               
+    let note = new Note(title, content, id)
 
 
+})
+//====================================================================
+
+
+// Helper Functions //
+//====================================================================
+uniqueID = ()=>{    //Generates random unique id for note object
+    let r = 0;
+    for (let i = 0; i < 2; i++) {
+        r = Math.floor(Math.random() * (1000 - 100) + 100);
+    }
+    if(uniqueIDs.includes(r)){
+        uniqueID();
+    }else{
+        uniqueIDs.push(r);
+        return r;
+    }
+}
 //====================================================================
 
