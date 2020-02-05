@@ -10,7 +10,7 @@ app.listen(PORT, ()=>{
     console.log(`ExpressNoteTaker is listening on @: http://localhost:${PORT}`);
 })
 
-// app.use(express.static("public"));
+app.use(express.static("public")); // Allows for app to serve static files in provided dir
 app.use(express.urlencoded({ extended: true })); //Allows for POST data processing
 app.use(express.json());
 
