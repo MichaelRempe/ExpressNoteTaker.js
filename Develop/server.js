@@ -41,8 +41,14 @@ app.post("/notes", (req, res)=>{
     let content = data[1];
     let id = uniqueID();
     // Create new note object with collected data => write new note to  JSON 'database'               
-    let note = new Note(title, content, id)
-
+    let note = new Note(title, content, id);
+    fs.readFile(path.join(__dirname, "/db/db.json"), (err, data)=>{
+        if(err){console.log(err)}
+        else{
+            let dummyData = JSON.parse(data);
+            console.log(dummyData);
+        }
+    });
 
 })
 //====================================================================
