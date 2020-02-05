@@ -18,12 +18,18 @@ app.use(express.json());
 
 // Routes //
 //====================================================================
+    // Serve HTML //
 app.get("/", (req, res)=>{
     res.sendFile(path.join(__dirname, "/public/index.html"));   //ROOT => Landing Page: index.html
 });
 app.get("/notes", (req, res)=>{
-    res.sendFile(path.join(__dirname, "/public/notes.html"));   //Notes => File Write Page: notes.html
+    res.sendFile(path.join(__dirname, "/public/notes.html"));   //Notes => Note Writing Page: notes.html
 });
+    // Serve JSON API
+app.get("/api/notes", (req, res)=>{
+    res.sendFile(path.join(__dirname, "/db/db.json")); // "/api/notes" => db.json : notes 'database'
+})
+
 
 //====================================================================
 
