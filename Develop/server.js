@@ -18,7 +18,8 @@ app.use(express.json());
 
 // Global Data //
 //====================================================================
-const uniqueIDs = [];
+let uniqueIDs = [];
+let notes = [];
 //====================================================================
 
 // Routes //
@@ -36,17 +37,21 @@ app.get("/api/notes", (req, res)=>{
 })
     //POST Notes
 app.post("/notes", (req, res)=>{
-    req.body.data = data; //Collect and initialize POST data
-    let title = data[0];
-    let content = data[1];
+    data = req.body; //Collect and initialize POST data
     let id = uniqueID();
     // Create new note object with collected data => write new note to  JSON 'database'               
-    let note = new Note(title, content, id);
+    let note = new Note(data.title, data.text, id);
+    notes.push(note);
     fs.readFile(path.join(__dirname, "/db/db.json"), (err, data)=>{
         if(err){console.log(err)}
         else{
-            let dummyData = JSON.parse(data);
-            console.log(dummyData);
+            database = JSON.parse(data);
+            notes = notes.concat(database._notes);
+            console.log(database._notes)
+            console.log(notes)
+            // fs.writeFile(path.join(__dirname, "/db/db.json"), note_db, (err)=>{
+            //     if(err){console.log(err)}
+            // });
         }
     });
 
